@@ -36,16 +36,16 @@ public class AccountSelector extends AbstractSelector {
 ## Usage
 
 ```javascript
-List<Account> results = (List<Account>) AddressSelector.fetch().executeQuery();
+List<Account> results = (List<Account>) AccountSelector.fetch().executeQuery();
 
-List<Account> results = (List<Account>) AddressSelector.fetch()
+List<Account> results = (List<Account>) AccountSelector.fetch()
             .filter('Id = :accountId')
             .bindParams(new Map<String, Object> {
                 'accountId' => accountId
             })
             .executeQuery();
 
-List<Account> results = (List<Account>) AddressSelector.fetch()
+List<Account> results = (List<Account>) AccountSelector.fetch()
             .orderBy('Name')
             .executeQuery();
 
