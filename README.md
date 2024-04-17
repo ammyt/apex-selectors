@@ -51,5 +51,7 @@ List<Account> results = (List<Account>) AccountSelector.fetch()
 
 Account result = (Account) AccountSelector.fetch().setLimit(1).executeQuery();
 
+Account result = (Account) AccountSelector.fetch('Name, Parent.Name').setLimit(1).executeQuery();
+
 ```
 
