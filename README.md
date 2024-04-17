@@ -49,7 +49,7 @@ List<Account> results = (List<Account>) AccountSelector.fetch()
             .orderBy('Name')
             .executeQuery();
 
-Account result = (Account) AddressSelector.fetch().setLimit(1).executeQuery();
+Account result = (Account) AccountSelector.fetch().setLimit(1).executeQuery();
 
 ```
 
