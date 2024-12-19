@@ -1,15 +1,11 @@
 public class AccountSelector extends AbstractSelector {
     // Constructor is private to control instantiation
     private AccountSelector() {
-        super();
+        super('Account');
     }
 
     private AccountSelector(String fields) {
-        super(fields);
-    }
-
-    protected override Schema.SObjectType getSObjectType() {
-        return Schema.getGlobalDescribe().get('Account');
+        super('Account', fields);
     }
 
     // Static factory method to instantiate AccountSelector

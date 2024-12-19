@@ -2,16 +2,18 @@ public abstract class AbstractSelector implements ISelector {
     protected String query;
     protected Integer limitValue;
     protected Map<String, Object> bindParams;
+    protected String objectAPIName;
     
-    // Constructor
-    protected AbstractSelector() {
+    protected AbstractSelector(String objectAPIName) {
+        this.objectAPIName = objectAPIName;
         this.bindParams = new Map<String, Object>();
-        this.query = generateQueryString(); // Dynamically generate the query string
+        this.query = generateQueryString(); // Now safe to call because objectAPIName is set
     }
-
-    protected AbstractSelector(String fields) {
+    
+    protected AbstractSelector(String objectAPIName, String fields) {
+        this.objectAPIName = objectAPIName;
         this.bindParams = new Map<String, Object>();
-        this.query = generateQueryString(fields); // Dynamically generate the query string
+        this.query = generateQueryString(fields); // Now safe to call because objectAPIName is set
     }
     
     // Dynamically generate the SOQL query string based on the SObject type
@@ -25,12 +27,15 @@ public abstract class AbstractSelector implements ISelector {
         return 'SELECT ' + String.join(fieldNames, ',') + ' FROM ' + getSObjectType().getDescribe().getName();
     }
 
-    private String generateQueryString(String fields) {
+    protected String generateQueryString(String fields) {
         return 'SELECT ' + fields + ' FROM ' + getSObjectType().getDescribe().getName();
     }
     
-    // Abstract method to be implemented by concrete classes to specify their SObject type
-    protected abstract Schema.SObjectType getSObjectType();
+    
+    private Schema.SObjectType getSObjectType() {
+        return Schema.getGlobalDescribe().get(this.objectAPIName);
+    }
+	
     
     // Method implementations for ISelector interface
     public ISelector filter(String condition) {
@@ -75,5 +80,9 @@ public abstract class AbstractSelector implements ISelector {
         } else {
             return results;
         }
-    } 
+    }
+
+    public String toSOQL() {
+        return this.query;
+    }
 }
